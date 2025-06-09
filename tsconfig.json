@@ -34,6 +34,12 @@
     },
     {
       "path": "./projects/ngx-calendar-event/tsconfig.spec.json"
+    },
+    {
+      "path": "./projects/ngx-calendar-event-demo/tsconfig.app.json"
+    },
+    {
+      "path": "./projects/ngx-calendar-event-demo/tsconfig.spec.json"
     }
   ]
 }
