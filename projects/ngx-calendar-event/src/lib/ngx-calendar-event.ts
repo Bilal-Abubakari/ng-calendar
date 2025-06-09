@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'lib-ngx-calendar-event',
+  selector: 'ngx-calendar-event',
   imports: [],
   template: `
     <p>
