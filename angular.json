@@ -3,5 +3,35 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "ngx-calendar-event": {
+      "projectType": "library",
+      "root": "projects/ngx-calendar-event",
+      "sourceRoot": "projects/ngx-calendar-event/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular/build:ng-packagr",
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/ngx-calendar-event/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/ngx-calendar-event/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular/build:karma",
+          "options": {
+            "tsConfig": "projects/ngx-calendar-event/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        }
+      }
+    }
   }
 }
