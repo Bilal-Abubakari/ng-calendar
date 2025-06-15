@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { NgxCalendarEvent } from "ngx-calendar-event";
+import { NgxCalendarEvent } from "../../../ngx-calendar-event/src/lib/ngx-calendar-event";
 
 @Component({
   selector: "app-root",

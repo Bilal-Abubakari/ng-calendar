@@ -1,0 +1,337 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+.calendar-container {
+  font-family: sans-serif;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #fff;
+  margin: auto;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.calendar-title-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.calendar-title {
+  font-size: 1.5em;
+  margin: 0;
+  color: #333;
+}
+
+.nav-arrow {
+  background: none;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 1em;
+  &:hover {
+    background-color: #f0f0f0;
+  }
+}
+
+.period-selector {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 5px;
+  .toggle-button {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.9em;
+    &.active {
+      background-color: #007bff;
+      color: white;
+      border-color: #007bff;
+    }
+    &:not(.active):hover {
+      background-color: #f0f0f0;
+    }
+  }
+}
+
+.calendar-grid-container {
+  margin-bottom: 20px;
+  overflow-x:  scroll;
+}
+
+.calendar-grid-header {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  font-weight: bold;
+  // Removed padding-bottom, margin-bottom, border-bottom from here,
+  // as .days-header .day-header-item will have border-bottom.
+  color: #555;
+
+  .person-header-info {
+    padding: 10px; // Adjusted padding
+    border-right: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0; // Match day-header-item bottom border
+    border-top: 1px solid #e0e0e0; // Match day-header-item top border
+    background-color: #fff; // Consistent background
+    display: flex; // For alignment if needed
+    align-items: center; // For alignment if needed
+  }
+
+  .days-header {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 60px; // Each day header takes equal space
+    text-align: center;
+    border-top: 1px solid #e0e0e0;
+    // border-left is effectively handled by person-header-info's right border
+    // Removed gap and background-color; lines come from cell borders.
+
+    .day-header-item {
+      //padding: 5px 2px;
+      background-color: #fff;
+      border-right: 1px solid #e0e0e0; // Vertical grid line
+      border-bottom: 1px solid #e0e0e0; // Horizontal line under header cells
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+
+      .day-header-number {
+        font-size: 1em;
+        font-weight: bold;
+        white-space: nowrap;
+      }
+      .day-header-name {
+        font-size: 0.75em;
+        color: #777;
+        margin-top: 2px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
+
+.calendar-grid {
+  display: flex;
+  flex-direction: column;
+  // gap: 5px; // Remove gap if rows have borders defining separation
+}
+
+.calendar-row {
+  display: grid;
+  grid-template-columns: 200px 1fr; // Must match .calendar-grid-header
+  align-items: stretch;
+  min-height: 60px;
+  border-bottom: 1px solid #e0e0e0; // Horizontal line between rows
+
+  &:last-child {
+    border-bottom: none; // Optional: remove border from the very last row
+  }
+
+  &:nth-child(odd) {
+     background-color: #f9f9f9;
+  }
+  &:nth-child(even) {
+    background-color: #fff;
+  }
+
+  .person-info {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    border-right: 1px solid #e0e0e0; // Vertical line separating person from events
+    // Background is inherited from .calendar-row
+  }
+
+  .events-track {
+    display: grid;
+    grid-auto-flow: column; // Lay out day cells in a single row
+    grid-auto-columns: 60px; // Each column (day) takes equal space, min 40px
+    grid-template-rows: 1fr; // Ensure cells fill the height of the track
+    align-items: center; // Vertically align items if they don't fill height
+    height: 100%;
+    // No background-color here; row background will show through transparent day cells.
+    // No border-left here; .person-info has border-right.
+    // No gap; .event-day-cell will provide right border.
+
+    .event-day-cell {
+      height: 100%; // Fill the track height
+      border-right: 1px solid #e0e0e0; // This creates the vertical grid line
+      // Background is transparent, shows .calendar-row's background
+
+      .has-event {
+        background: green;
+        height: 20px;
+        width: 20px;
+        color: red;
+        z-index: 100;
+      }
+    }
+
+    // Event bars are placed on this grid.
+    // Using the more detailed .event-bar definition from lower in your file.
+    .event-bar {
+      // Existing styles:
+      // background-color: #007bff; // This is a fallback or default
+      color: white;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      text-align: center;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      height: 80%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1; // Ensure event bars are above the .event-day-cell elements
+
+      min-width: 0;
+
+      // Specific event type background colors
+      &.event-approved {
+        background-color: #28a745;
+      }
+      &.event-pending {
+        background-color: #ffc107;
+        color: #333;
+      }
+      &.event-meeting {
+        background-color: #17a2b8;
+      }
+      // Add more event types as needed
+
+      // Add this new class and styles for drawing grid lines on multi-day events
+      //&.event-bar-spans-multiple {
+      //  // The repeating gradient is layered on top of the background-color.
+      //  // It creates transparent segments with a 1px colored line at the end of each segment.
+      //  background-image: repeating-linear-gradient(
+      //      to right,
+      //      transparent 0%,                          // Main part of the segment is transparent (shows event bar's background-color)
+      //      transparent calc(100% - 1px),           // Transparent up to the last pixel of the segment
+      //      #e0e0e0 calc(100% - 1px),               // Start of the 1px grid line (color matches your grid lines)
+      //      #e0e0e0 100%                            // End of the 1px grid line / end of the segment pattern
+      //  );
+      //  // The size of one repeating segment is (total width of event bar / number of days spanned).
+      //  background-size: calc(100% / var(--event-span-days)) 100%;
+      //}
+    }
+  }
+
+}
+
+// Updated .events-track (modifying the version around line 100 of your provided SCSS)
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.person-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-name {
+  font-weight: bold;
+  color: #333;
+}
+
+.person-role {
+  font-size: 0.85em;
+  color: #777;
+}
+
+.calendar-legend {
+  display: flex;
+  gap: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  flex-wrap: wrap;
+  margin-top: 20px; // Add some space above the legend
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.legend-color-swatch {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  display: inline-block;
+
+  &.swatch-approved {
+    background-color: #28a745;
+  }
+  &.swatch-pending {
+    background-color: #ffc107;
+  }
+  &.swatch-meeting {
+    background-color: #17a2b8;
+  }
+}
+
+.legend-label {
+  font-size: 0.9em;
+  color: #555;
+}
+
+.calendar-grid-container,
+.calendar-grid-header,
+.calendar-grid,
+.calendar-row,
+.person-header-info,
+.person-info,
+.days-header,
+.days-header .day-header-item,
+.events-track,
+.events-track .event-day-cell,
+.events-track .event-bar {
+  box-sizing: border-box; // Reinforce or rely on global rule
+}
+
+.events-track {
+  display: grid;
+  /* This is critical: The number of columns must match the number of days.
+     For example, if getDays().length returns 7, it should be repeat(7, 1fr).
+     You might need to set this dynamically or have different CSS classes
+     if the number of days can change (e.g., month vs. week view). */
+  /* Replace 'NUMBER_OF_DAYS_PLACEHOLDER' with actual number of days or use dynamic styling */
+  grid-template-columns: repeat(NUMBER_OF_DAYS_PLACEHOLDER, 1fr);
+  position: relative; /* Useful for z-index stacking if items overlap complexly */
+  /* Ensure it aligns with the .days-header grid definition */
+}
+
+.event-day-cell {
+  /* Basic styling for cells, e.g., borders to show the grid */
+  /* border: 1px solid #f0f0f0; */ /* Example border */
+  box-sizing: border-box;
+}

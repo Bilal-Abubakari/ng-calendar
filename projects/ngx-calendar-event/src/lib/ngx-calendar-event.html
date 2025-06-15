@@ -1,0 +1,120 @@
+<!-- projects/ngx-calendar-event/src/lib/ngx-calendar-event.html -->
+          <div class="calendar-container">
+            <header class="calendar-header">
+              <div class="calendar-title-nav">
+                <h2 class="calendar-title">Calendar</h2>
+                <button class="nav-arrow" aria-label="Previous month">&lt;</button>
+                <button class="nav-arrow" aria-label="Next month">&gt;</button>
+                <select class="period-selector" aria-label="Select period">
+                  <option>June 2025</option>
+                  <option>July 2025</option>
+                  <option>August 2025</option>
+                </select>
+              </div>
+              <div class="view-toggle">
+                <button
+                  class="toggle-button"
+                  [class.active]="currentView === 'month'"
+                  (click)="toggleView('month')"
+                 >
+                  Month
+                </button>
+                <button
+                  class="toggle-button"
+                  [class.active]="currentView === 'week'"
+                  (click)="toggleView('week')"
+                  >
+                  Week
+                </button>
+              </div>
+            </header>
+
+            <div class="calendar-grid-container">
+              <div class="calendar-grid-header">
+                <div class="person-header-info">Person</div>
+                <div class="days-header">
+                  @for (day of getDays(); track day.dayNumber) {
+                    <div class="day-header-item">
+                      <span class="day-header-number">{{ day.dayNumber }}</span>
+                      <span class="day-header-name">{{ day.dayName }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+              <div class="calendar-grid">
+                <!-- Row 1: Olivia Rhye -->
+                <div class="calendar-row">
+                  <div class="person-info">
+                    <img src="avatar_olivia.png" alt="Olivia Rhye" class="avatar">
+                    <div class="person-details">
+                      <span class="person-name">Olivia Rhye</span>
+                      <span class="person-role">Expert</span>
+                    </div>
+                  </div>
+                  <div class="events-track">
+                    <!-- Render background grid cells -->
+                    @for (day of getDays(); track day.dayNumber) {
+                      <div class="event-day-cell">
+                      </div>
+                    }
+                    <div class="event-bar {{oliviaEvent.typeClass}}"
+                         [style.grid-column-start]="oliviaEvent.startColumn"
+                         [style.grid-column-end]="'span ' + ceil(oliviaEvent.span)"
+                         [style.width]="(oliviaEvent.span / ceil(oliviaEvent.span)) * 90 + '%'"
+                         [style.--event-span-days]="oliviaEvent.span"
+                         [class.event-bar-spans-multiple]="oliviaEvent.span > 1">
+                      {{ oliviaEvent.name }}
+                    </div>
+                    <div class="event-bar {{oliviaEvent.typeClass}}"
+                         [style.grid-column-start]="9"
+                         [style.grid-column-end]="'span ' + ceil(11)"
+                         [style.width]="(oliviaEvent.span / ceil(oliviaEvent.span)) * 90 + '%'"
+                         [style.--event-span-days]="oliviaEvent.span"
+                         [class.event-bar-spans-multiple]="oliviaEvent.span > 1">
+                      {{ oliviaEvent.name }}
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Row 2: John Doe -->
+                <div class="calendar-row">
+                  <div class="person-info">
+                    <img src="avatar_john.png" alt="John Doe" class="avatar">
+                    <div class="person-details">
+                      <span class="person-name">John Doe</span>
+                      <span class="person-role">Developer</span>
+                    </div>
+                  </div>
+                  <div class="events-track">
+                    <!-- Render background grid cells -->
+                    @for (day of getDays(); track day.dayNumber) {
+                      <div class="event-day-cell"></div>
+                    }
+                    <div class="event-bar {{johnEvent.typeClass}}"
+                         [style.grid-column-start]="johnEvent.startColumn"
+                         [style.grid-column-end]="johnEvent.endColumn"
+                         [style.--event-span-days]="johnEvent.span"
+                         [class.event-bar-spans-multiple]="johnEvent.span > 1">
+                      {{ johnEvent.name }}
+                    </div>
+                  </div>
+                </div>
+                <!-- Add more rows as needed -->
+              </div>
+            </div>
+
+            <footer class="calendar-legend">
+              <div class="legend-item">
+                <span class="legend-color-swatch swatch-approved"></span>
+                <span class="legend-label">Leaves Approved</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-swatch swatch-pending"></span>
+                <span class="legend-label">Pending Request</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color-swatch swatch-meeting"></span>
+                <span class="legend-label">Meeting</span>
+              </div>
+            </footer>
+          </div>
